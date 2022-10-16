@@ -49,9 +49,8 @@ INSERT INTO orders (order_time, customer_id)
 INSERT INTO pizzas_orders (order_id, pizza_id)
 	VALUES (1,1), (1,3),(2,2), (2,3), (2,3), (3,3), (3,4);
 
-
- CREATE SCHEMA assi12;
-
+SELECT * FROM pizzas_orders
+where order_id between 1 and 4;
 
 SELECT* FROM customers;
 SELECT* FROM pizzas;
