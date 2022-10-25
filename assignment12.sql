@@ -1,11 +1,13 @@
+create database restaurant_assignment12_pizza_orders;
+
+-- create tables --
+
 CREATE TABLE customers (
 	customer_id INT NOT NULL AUTO_INCREMENT,
     customer_name VARCHAR(100),
-    customer_tel VARCHAR(14),
+    customer_tel VARCHAR(25),
     PRIMARY KEY (customer_id)
     );
-
-
 
  CREATE TABLE orders (
     order_id INT NOT NULL AUTO_INCREMENT,
@@ -30,12 +32,18 @@ CREATE TABLE pizzas (
     );
 
 CREATE TABLE pizzas_orders (
-	pizza_id INT NOT NULL,
+	
+    pizza_id INT NOT NULL,
 	order_id INT NOT NULL,
-    FOREIGN KEY (pizza_id) REFERENCES pizzas (pizza_id),
+    quantity INT NOT NULL,
+    
+    
+    FOREIGN KEY (pizza_id) REFERENCES pizzas (pizza_id) ON DELETE NO ACTION,
     FOREIGN KEY (order_id) REFERENCES orders (order_id)
     ON DELETE NO ACTION
 );
+
+-- fill up tables with orders data --
 
 INSERT INTO customers (customer_name, customer_tel) 
 	VALUES ("John Doe", "226-555-4982"), ("Trevor Page", "226-555-4982");
@@ -46,15 +54,34 @@ INSERT INTO pizzas (pizza_name, pizza_price)
 INSERT INTO orders (order_time, customer_id)
 	VALUES ("2014-10-09 09:47:00", 2), ("2014-10-09 13:20:00", 1), ("2014-10-09 09:47:00", 2);
     
-INSERT INTO pizzas_orders (order_id, pizza_id)
-	VALUES (1,1), (1,3),(2,2), (2,3), (2,3), (3,3), (3,4);
+INSERT INTO pizzas_orders (order_id, pizza_id, quantity)
+	VALUES (1,1,1), (1,3,1), (2,2,1), (2,3,2), (3,3,1), (3,4,1);
 
-SELECT * FROM pizzas_orders
-where order_id between 1 and 4;
+-- Q4: how much money has each individual customer spent? --
+SELECT customer_name, sum(quantity * pizza_price) as total_spent FROM pizzas_orders piors 
+	left JOIN pizzas p on p.pizza_id = piors.pizza_id
+    left Join orders o on o.order_id = piors.order_id 
+    left JOIN customers c on c.customer_id = o.customer_id
+    GROUP BY customer_name;
+    
+-- Q5: how much money has each individual customer spent on which date?--
+SELECT customer_name, order_time, sum(quantity * pizza_price) as total_spent FROM pizzas_orders piors 
+	left JOIN pizzas p on p.pizza_id = piors.pizza_id
+    left Join orders o on o.order_id = piors.order_id 
+    left JOIN customers c on c.customer_id = o.customer_id
+    GROUP BY customer_name, o.order_time, o.order_id
+    ORDER BY total_spent;
 
-SELECT* FROM customers;
-SELECT* FROM pizzas;
-SELECT* FROM pizzas_orders;
+ 
+-- testing area --
+describe pizzas_orders;
+SELECT* FROM customers
+	GROUP BY customer_id;
+SELECT* FROM pizzas
+	GROUP BY pizza_id;
+SELECT* FROM pizzas_orders
+	order BY order_id;
 SELECT* FROM orders;
 SHOW FULL COLUMNS FROM customers;
 SHOW FULL COLUMNS FROM orders;
+SHOW VARIABLES LIKE 'sql_mode';
