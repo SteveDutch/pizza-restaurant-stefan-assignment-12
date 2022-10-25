@@ -1,5 +1,5 @@
-model.mwb.bak
-model.mwb
+/model.mwb.bak
+/model.mwb
 # Specify filepatterns you want git to ignore.
  *.bak
  *.mwb
