@@ -1,4 +1,4 @@
-create database restaurant_assignment12_pizza_orders;
+CREATE DATABASE restaurant_assignment12_pizza_orders;
 
 -- create tables --
 
