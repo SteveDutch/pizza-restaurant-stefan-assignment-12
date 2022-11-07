@@ -55,14 +55,13 @@ SELECT customer_name, sum(quantity * pizza_price) AS total_spent FROM pizzas_ord
     GROUP BY customer_name;
     
 -- Q5: how much money has each individual customer spent on which date?--
-SELECT customer_name, order_time, sum(quantity * pizza_price) AS total_spent FROM pizzas_orders piors 
-	LEFT JOIN pizzas p ON p.pizza_id = piors.pizza_id
+SELECT customer_name, CONVERT(order_time, DATE) AS order_date , sum(quantity * pizza_price) AS total_spent FROM pizzas_orders piors 
+    LEFT JOIN pizzas p ON p.pizza_id = piors.pizza_id
     LEFT Join orders o ON o.order_id = piors.order_id 
     LEFT JOIN customers c ON c.customer_id = o.customer_id
-    GROUP BY customer_name, o.order_time, o.order_id
-    ORDER BY total_spent;
-
- 
+    GROUP BY customer_name, order_date 
+    ORDER BY  total_spent, order_date;
+    
 -- testing area --
 DESCRIBE pizzas_orders;
 SELECT* FROM customers
