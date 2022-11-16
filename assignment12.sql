@@ -36,16 +36,17 @@ CREATE TABLE pizzas_orders (
 -- fill up tables with orders data --
 
 INSERT INTO customers (customer_name, customer_tel) 
-	VALUES ("John Doe", "226-555-4982"), ("Trevor Page", "226-555-4982");
+	VALUES ("John Doe", "226-555-4982"), ("Trevor Page", "226-555-4982"), ("Roche", "337-777-5093");
     
 INSERT INTO pizzas (pizza_name, pizza_price)
 	VALUES ("Pepperoni & Cheese", 7.99), ("Vegetarian", 9.99), ("Meat Lovers", 14.99), ("Hawaiian", 12.99);
     
 INSERT INTO orders (order_time, customer_id)
-	VALUES ("2014-10-09 09:47:00", 2), ("2014-10-09 13:20:00", 1), ("2014-10-09 09:47:00", 2);
+	VALUES ("2014-10-09 09:47:00", 2), ("2014-10-09 13:20:00", 1), ("2014-10-09 09:47:00", 2), 
+			("2022-11-08 3:00:00", 3), ("2022-11-08 15:00:00", 3);
     
 INSERT INTO pizzas_orders (order_id, pizza_id, quantity)
-	VALUES (1,1,1), (1,3,1), (2,2,1), (2,3,2), (3,3,1), (3,4,1);
+	VALUES (1,1,1), (1,3,1), (2,2,1), (2,3,2), (3,3,1), (3,4,1), (4,2,3), (5,2,5);
 
 -- Q4: how much money has each individual customer spent? --
 SELECT customer_name, sum(quantity * pizza_price) AS total_spent FROM pizzas_orders piors 
